@@ -4,8 +4,13 @@
   "description": "Meal Booking Ecommerce App",
   "main": "api/index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node api/index.js",
+    "start": "node ./build/index.js",
+    "dev": "nodemon --exec babel-node api/index.js",
     "test": "nyc mocha -r esm --exit",
+    "build": "npm run clean && npm run build-babel && npm run copy-files",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./api -s",
+    "copy-files": "cp -R ./api/data ./build/data",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
@@ -22,6 +27,7 @@
   },
   "homepage": "https://github.com/timzprof/book-a-meal#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
     "esm": "^3.2.4",
